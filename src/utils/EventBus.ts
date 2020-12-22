@@ -51,7 +51,7 @@ class EventBus {
     }
 
     // If callback and scope are undefined then every registered event is match, thus any event of the type matches
-    let numOfCallbacks = this.events[type].length;
+    const numOfCallbacks = this.events[type].length;
     if (callback === undefined && scope === undefined) {
       // If scope and callback are not defined
       return numOfCallbacks > 0; // If there are any callbacks we can be sure it matches the passed one
@@ -80,7 +80,7 @@ class EventBus {
       return; // If not, quit method
     }
 
-    let bag = { type, target };
+    const bag = { type, target };
 
     const events = this.events[type].slice(); // Little hack to clone array
 
@@ -97,7 +97,7 @@ class EventBus {
     let str = '';
     for (const [type, events] of Object.entries(this.events)) {
       for (const event of events) {
-        let className =
+        const className =
           (event.scope && event.scope.constructor.name) || 'Anonymous';
         str += `${className} listening for "${type}"\n`;
       }
