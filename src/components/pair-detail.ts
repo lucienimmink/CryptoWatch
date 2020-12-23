@@ -19,8 +19,9 @@ export class Main extends LitElement {
   @property()
   name: string;
   priceOfOne: number;
+  priceOfWallet: number;
   profit: number;
-  percentage: string;
+  percentage: number;
   currencyFormatter: any;
   numberFormatter: any;
   isCalculating: boolean;
@@ -29,13 +30,16 @@ export class Main extends LitElement {
     super();
     this.name = '';
     this.priceOfOne = 0;
+    this.priceOfWallet = 0;
     this.profit = 0;
-    this.percentage = '0.00';
+    this.percentage = 0;
     this.currencyFormatter = new Intl.NumberFormat(language, {
       style: 'currency',
       currency: 'EUR',
     });
-    this.numberFormatter = new Intl.NumberFormat(language);
+    this.numberFormatter = new Intl.NumberFormat(language, {
+      maximumSignificantDigits: 3,
+    });
     this.isCalculating = true;
     this._listen();
   }
@@ -77,7 +81,8 @@ export class Main extends LitElement {
         const difference = this.priceOfOne - pricePaidForOne;
         this.profit = difference * this.pair.amount;
         const pricePaid = this.pair.amount * this.pair.at;
-        this.percentage = Number((this.profit / pricePaid) * 100).toFixed(2);
+        this.priceOfWallet = this.pair.amount * this.priceOfOne;
+        this.percentage = (this.profit / pricePaid) * 100;
         this.requestUpdate();
         EventBus.emit(
           'calculation',
@@ -108,6 +113,10 @@ export class Main extends LitElement {
         <p>
           Current price of 1 ${this.name}:
           <strong>${this.currencyFormatter.format(this.priceOfOne)}</strong>
+        </p>
+        <p>
+          Current price of this wallet:
+          <strong>${this.currencyFormatter.format(this.priceOfWallet)}</strong>
         </p>
         <hr />
         <p>

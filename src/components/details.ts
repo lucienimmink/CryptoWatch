@@ -27,7 +27,7 @@ export class Main extends LitElement {
   total: number;
   currencyFormatter: any;
   numberFormatter: any;
-  percentage: string;
+  percentage: number;
   isCalculating: boolean;
 
   static get styles() {
@@ -51,12 +51,14 @@ export class Main extends LitElement {
     this.profit = 0;
     this.paid = 0;
     this.total = 0;
-    this.percentage = '0.00';
+    this.percentage = 0;
     this.currencyFormatter = new Intl.NumberFormat(language, {
       style: 'currency',
       currency: 'EUR',
     });
-    this.numberFormatter = new Intl.NumberFormat(language);
+    this.numberFormatter = new Intl.NumberFormat(language, {
+      maximumSignificantDigits: 3,
+    });
     this.isCalculating = true;
     setInterval(() => {
       this._doRefresh();
@@ -94,7 +96,7 @@ export class Main extends LitElement {
         this.paid += paid;
         const totalForPair = profit + paid;
         this.total += totalForPair;
-        this.percentage = Number((this.profit / this.paid) * 100).toFixed(2);
+        this.percentage = (this.profit / this.paid) * 100;
         this.isCalculating = false;
         if (data?.ts) {
           handled[data.ts] = handled[data.ts] || [];
