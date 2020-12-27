@@ -77,12 +77,22 @@ export class Main extends LitElement {
         const result = json.result[keys[0]];
         const bids = result.b;
         this.priceOfOne = Number(bids[0]);
-        const pricePaidForOne = Number(this.pair.at);
-        const difference = this.priceOfOne - pricePaidForOne;
-        this.profit = difference * this.pair.amount;
-        const pricePaid = this.pair.amount * this.pair.at;
-        this.priceOfWallet = this.pair.amount * this.priceOfOne;
-        this.percentage = (this.profit / pricePaid) * 100;
+        let pricePaid = 0;
+        if (this.pair.at) {
+          const pricePaidForOne = Number(this.pair.at);
+          const difference = this.priceOfOne - pricePaidForOne;
+          this.profit = difference * this.pair.amount;
+          pricePaid = this.pair.amount * this.pair.at;
+          this.priceOfWallet = this.pair.amount * this.priceOfOne;
+          this.percentage = (this.profit / pricePaid) * 100;
+        } else {
+          const pricePaidForOne = this.pair.for / this.pair.amount;
+          const difference = this.priceOfOne - pricePaidForOne;
+          this.profit = difference * this.pair.amount;
+          pricePaid = Number(this.pair.for);
+          this.priceOfWallet = Number(this.pair.for) + Number(this.profit);
+          this.percentage = (this.profit / pricePaid) * 100;
+        }
         this.requestUpdate();
         EventBus.emit(
           'calculation',
@@ -95,6 +105,16 @@ export class Main extends LitElement {
         );
         this.isCalculating = false;
       }
+    } else {
+      EventBus.emit(
+        'calculation',
+        {
+          value,
+          paid: this.pair?.amount || 0,
+          fiat: true,
+        },
+        data
+      );
     }
   }
 
@@ -110,29 +130,39 @@ export class Main extends LitElement {
           Amount of ${this.name}:
           ${this.numberFormatter.format(this.pair.amount)}
         </p>
-        <p>
-          Current price of 1 ${this.name}:
-          <strong>${this.currencyFormatter.format(this.priceOfOne)}</strong>
-        </p>
-        <p>
-          Current price of this wallet:
-          <strong>${this.currencyFormatter.format(this.priceOfWallet)}</strong>
-        </p>
-        <hr />
-        <p>
-          Current profit:
-          <strong
-            class="${this.profit >= 0 ? 'positive ' : 'negative '} ${this
-              .isCalculating
-              ? 'calculating'
-              : nothing}"
-            >${this.currencyFormatter.format(this.profit)}</strong
-          >
-          <span
-            class="small muted ${this.isCalculating ? 'calculating' : nothing}"
-            >(${this.numberFormatter.format(this.percentage)}%)</span
-          >
-        </p>
+        ${this.pair.for || this.pair.at
+          ? html`
+              <p>
+                Current price of 1 ${this.name}:
+                <strong
+                  >${this.currencyFormatter.format(this.priceOfOne)}</strong
+                >
+              </p>
+              <p>
+                Current price of this wallet:
+                <strong
+                  >${this.currencyFormatter.format(this.priceOfWallet)}</strong
+                >
+              </p>
+              <hr />
+              <p>
+                Current profit:
+                <strong
+                  class="${this.profit >= 0 ? 'positive ' : 'negative '} ${this
+                    .isCalculating
+                    ? 'calculating'
+                    : nothing}"
+                  >${this.currencyFormatter.format(this.profit)}</strong
+                >
+                <span
+                  class="small muted ${this.isCalculating
+                    ? 'calculating'
+                    : nothing}"
+                  >(${this.numberFormatter.format(this.percentage)}%)</span
+                >
+              </p>
+            `
+          : nothing}
       </fieldset>
     </div>`;
   }

@@ -90,13 +90,19 @@ export class Main extends LitElement {
       (calculation: any, data: any) => {
         const walletLength = Object.keys(this.wallet).length;
         this.isCalculating = true;
-        const profit = calculation.target.profit;
-        const paid = calculation.target.paid;
-        this.profit += profit;
-        this.paid += paid;
-        const totalForPair = profit + paid;
-        this.total += totalForPair;
-        this.percentage = (this.profit / this.paid) * 100;
+        const paid = Number(calculation.target.paid);
+        if (calculation.target.fiat) {
+          this.paid += paid;
+          this.total += paid;
+          this.percentage = (this.profit / this.paid) * 100;
+        } else {
+          const profit = calculation.target.profit;
+          this.profit += profit;
+          this.paid += paid;
+          const totalForPair = profit + paid;
+          this.total += totalForPair;
+          this.percentage = (this.profit / this.paid) * 100;
+        }
         this.isCalculating = false;
         if (data?.ts) {
           handled[data.ts] = handled[data.ts] || [];

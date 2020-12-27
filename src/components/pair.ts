@@ -1,4 +1,5 @@
 import { LitElement, html, customElement, property } from 'lit-element';
+import { nothing } from 'lit-html';
 import fieldset from '../styles/fieldset';
 
 import './input-group';
@@ -19,19 +20,23 @@ export class Main extends LitElement {
           name="${this.pair.name} amount"
           id="${this.pair.name}|amount"
         ></input-group>
-        <br />
-        <input-group
-          name="Bought at"
-          prefix="€"
-          id="${this.pair.name}|at"
-        ></input-group>
-        or
-        <br />
-        <input-group
-          name="Bought for"
-          prefix="€"
-          id="${this.pair.name}|for"
-        ></input-group>
+        ${this.pair.fiat
+          ? nothing
+          : html`
+              <br />
+              <input-group
+                name="Bought at"
+                prefix="€"
+                id="${this.pair.name}|at"
+              ></input-group>
+              or
+              <br />
+              <input-group
+                name="Bought for"
+                prefix="€"
+                id="${this.pair.name}|for"
+              ></input-group>
+            `}
       </fieldset>
     </div>`;
   }
