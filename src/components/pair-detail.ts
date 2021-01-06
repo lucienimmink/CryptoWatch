@@ -140,27 +140,51 @@ export class Main extends LitElement {
               </p>
               <p>
                 Current price of this wallet:
-                <strong
-                  >${this.currencyFormatter.format(this.priceOfWallet)}</strong
-                >
+                ${this.pair.for != 0
+                  ? html`
+                      <strong
+                        >${this.currencyFormatter.format(
+                          this.priceOfWallet
+                        )}</strong
+                      >
+                    `
+                  : html`
+                      <strong
+                        class="${this.priceOfWallet >= 0
+                          ? 'positive '
+                          : 'negative '} ${this.isCalculating
+                          ? 'calculating'
+                          : nothing}"
+                        >${this.currencyFormatter.format(
+                          this.priceOfWallet
+                        )}</strong
+                      >
+                    `}
               </p>
-              <hr />
-              <p>
-                Current profit:
-                <strong
-                  class="${this.profit >= 0 ? 'positive ' : 'negative '} ${this
-                    .isCalculating
-                    ? 'calculating'
-                    : nothing}"
-                  >${this.currencyFormatter.format(this.profit)}</strong
-                >
-                <span
-                  class="small muted ${this.isCalculating
-                    ? 'calculating'
-                    : nothing}"
-                  >(${this.numberFormatter.format(this.percentage)}%)</span
-                >
-              </p>
+              ${this.pair.for != 0
+                ? html`
+                    <hr />
+                    <p>
+                      Current profit:
+                      <strong
+                        class="${this.profit >= 0
+                          ? 'positive '
+                          : 'negative '} ${this.isCalculating
+                          ? 'calculating'
+                          : nothing}"
+                        >${this.currencyFormatter.format(this.profit)}</strong
+                      >
+                      <span
+                        class="small muted ${this.isCalculating
+                          ? 'calculating'
+                          : nothing}"
+                        >(${this.numberFormatter.format(
+                          this.percentage
+                        )}%)</span
+                      >
+                    </p>
+                  `
+                : nothing}
             `
           : nothing}
       </fieldset>

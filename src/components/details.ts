@@ -130,29 +130,35 @@ export class Main extends LitElement {
             .pair=${this.wallet[key]}
           ></pair-detail>`
       )}
-      <fieldset>
-        <legend>Totals</legend>
-        <p>
-          Profit:
-          <strong
-            class="${this.profit >= 0 ? 'positive ' : 'negative '} ${this
-              .isCalculating
-              ? 'calculating'
-              : nothing}"
-            >${this.currencyFormatter.format(this.profit)}</strong
-          >
-          <span
-            class="small muted ${this.isCalculating ? 'calculating' : nothing}"
-            >(${this.numberFormatter.format(this.percentage)}%)</span
-          >
-        </p>
-        <p>
-          Total:
-          <span class="${this.isCalculating ? 'calculating' : nothing}"
-            >${this.currencyFormatter.format(this.total)}</span
-          >
-        </p>
-      </fieldset>
+      ${Object.keys(this.wallet).length > 1
+        ? html`
+            <fieldset>
+              <legend>Totals</legend>
+              <p>
+                Profit:
+                <strong
+                  class="${this.profit >= 0 ? 'positive ' : 'negative '} ${this
+                    .isCalculating
+                    ? 'calculating'
+                    : nothing}"
+                  >${this.currencyFormatter.format(this.profit)}</strong
+                >
+                <span
+                  class="small muted ${this.isCalculating
+                    ? 'calculating'
+                    : nothing}"
+                  >(${this.numberFormatter.format(this.percentage)}%)</span
+                >
+              </p>
+              <p>
+                Total:
+                <span class="${this.isCalculating ? 'calculating' : nothing}"
+                  >${this.currencyFormatter.format(this.total)}</span
+                >
+              </p>
+            </fieldset>
+          `
+        : nothing}
       <button class="btn btn-primary" @click=${this._doRefresh}>Refresh</button>
       <button class="btn btn-secondary" @click=${this._goBack}>Back</button>
       <!--
