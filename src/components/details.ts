@@ -147,15 +147,23 @@ export class Main extends LitElement {
                   class="small muted ${this.isCalculating
                     ? 'calculating'
                     : nothing}"
-                  >(${this.numberFormatter.format(this.percentage)}%)</span
+                >
+                  ${this.paid !== 0
+                    ? html` (${this.numberFormatter.format(this.percentage)}%) `
+                    : nothing}</span
                 >
               </p>
-              <p>
-                Total:
-                <span class="${this.isCalculating ? 'calculating' : nothing}"
-                  >${this.currencyFormatter.format(this.total)}</span
-                >
-              </p>
+              ${this.paid !== 0
+                ? html`
+                    <p>
+                      Total:
+                      <span
+                        class="${this.isCalculating ? 'calculating' : nothing}"
+                        >${this.currencyFormatter.format(this.total)}</span
+                      >
+                    </p>
+                  `
+                : nothing}
             </fieldset>
           `
         : nothing}
