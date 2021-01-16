@@ -4,8 +4,8 @@ export default [
     brokerUrl: 'https://api.kraken.com/0/public/Ticker?pair=xbteur',
   },
   {
-    name: 'Ripple',
-    brokerUrl: 'https://api.kraken.com/0/public/Ticker?pair=xrpeur',
+    name: 'PolkaDot',
+    brokerUrl: 'https://api.kraken.com/0/public/Ticker?pair=doteur',
   },
   {
     name: 'Euro',
