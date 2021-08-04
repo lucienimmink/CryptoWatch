@@ -37,7 +37,6 @@ export class Main extends LitElement {
         // append/overwrite data
         this.wallet[crypto] = this.wallet[crypto] || {};
         this.wallet[crypto][field] = value;
-        console.log({ id, value, crypto, field, wallet: this.wallet });
       },
       this
     );
