@@ -33,10 +33,11 @@ export class Main extends LitElement {
         const crypto = id.split('|')[0];
         const field = id.split('|')[1];
         // get current wallet
-        this.wallet = await get('wallet');
+        this.wallet = this.wallet || (await get('wallet')) || {};
         // append/overwrite data
         this.wallet[crypto] = this.wallet[crypto] || {};
         this.wallet[crypto][field] = value;
+        console.log({ id, value, crypto, field, wallet: this.wallet });
       },
       this
     );

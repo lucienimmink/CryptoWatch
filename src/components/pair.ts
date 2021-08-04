@@ -18,7 +18,7 @@ export class Main extends LitElement {
     this._getWallet();
   }
   async _getWallet() {
-    this.wallet = await get('wallet');
+    this.wallet = (await get('wallet')) || {};
     this.requestUpdate();
   }
 
