@@ -65,7 +65,7 @@ export class Main extends LitElement {
     }, INTERVAL);
   }
   async _getWallet() {
-    this.wallet = await get('wallet');
+    this.wallet = (await get('wallet')) || {};
     this.requestUpdate();
   }
   _goBack() {
@@ -75,13 +75,16 @@ export class Main extends LitElement {
     throw new Error(`Method not implemented. ${href}`);
   }
   async _doRefresh() {
-    this.profit = 0;
-    this.paid = 0;
-    this.total = 0;
+    this.isCalculating = true;
+    this.requestUpdate();
     await this._getWallet();
     EventBus.emit('refresh', this, {
       ts: new Date().getTime(),
     });
+    // reset for next cycle
+    this.profit = 0;
+    this.paid = 0;
+    this.total = 0;
   }
 
   _listen() {
@@ -90,7 +93,6 @@ export class Main extends LitElement {
       'calculation',
       (calculation: any, data: any) => {
         const walletLength = Object.keys(this.wallet).length;
-        this.isCalculating = true;
         const paid = Number(calculation.target.paid);
         if (calculation.target.fiat) {
           this.paid += paid;
@@ -161,17 +163,12 @@ export class Main extends LitElement {
                     : nothing}</span
                 >
               </p>
-              ${this.paid !== 0
-                ? html`
-                    <p>
-                      Total:
-                      <span
-                        class="${this.isCalculating ? 'calculating' : nothing}"
-                        >${this.currencyFormatter.format(this.total)}</span
-                      >
-                    </p>
-                  `
-                : nothing}
+              <p>
+                Total:
+                <span class="${this.isCalculating ? 'calculating' : nothing}"
+                  >${this.currencyFormatter.format(this.total)}</span
+                >
+              </p>
             </fieldset>
           `
         : nothing}
