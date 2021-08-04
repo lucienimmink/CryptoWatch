@@ -11,6 +11,8 @@ export class Main extends LitElement {
   prefix: string;
   @property()
   id: string;
+  @property({ type: Number })
+  value: number;
 
   static get styles() {
     return [input];
@@ -21,6 +23,7 @@ export class Main extends LitElement {
     this.name = '';
     this.prefix = '';
     this.id = '';
+    this.value = 0;
   }
 
   _onChange() {
@@ -33,6 +36,8 @@ export class Main extends LitElement {
   render() {
     return html` <label for=${this.name}>${this.name}</label>
     ${this.prefix ? html`<span>${this.prefix}</span>` : nothing}
-    <input type="tel" id=${this.name} @change=${this._onChange}></input> `;
+    <input type="tel" id=${this.name} @change=${this._onChange} value=${
+      this.value || ''
+    }></input> `;
   }
 }

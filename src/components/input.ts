@@ -5,7 +5,7 @@ import tradepairs from '../utils/tradepairs';
 import { global as EventBus } from '../utils/EventBus';
 
 import './pair';
-import { set } from 'idb-keyval';
+import { get, set } from 'idb-keyval';
 import { nothing } from 'lit-html';
 
 @customElement('input-nav')
@@ -27,21 +27,29 @@ export class Main extends LitElement {
   _listen() {
     EventBus.on(
       'change',
-      (change: any) => {
+      async (change: any) => {
         const id = change.target.id;
         const value = change.target.value;
         const crypto = id.split('|')[0];
         const field = id.split('|')[1];
+        // get current wallet
+        this.wallet = await get('wallet');
+        // append/overwrite data
         this.wallet[crypto] = this.wallet[crypto] || {};
         this.wallet[crypto][field] = value;
       },
       this
     );
   }
-  _doCheck() {
+  async _doCheck() {
     this.noPairs = false;
     this.noAmount = false;
-    const pairs = Object.keys(this.wallet);
+    let pairs = Object.keys(this.wallet);
+    if (pairs.length === 0) {
+      // no data has changed, get saved wallet
+      this.wallet = await get('wallet');
+      pairs = Object.keys(this.wallet);
+    }
     this.requestUpdate();
     if (pairs.length === 0) {
       this.noPairs = true;

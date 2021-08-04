@@ -74,10 +74,11 @@ export class Main extends LitElement {
   navigate(href: any) {
     throw new Error(`Method not implemented. ${href}`);
   }
-  _doRefresh() {
+  async _doRefresh() {
     this.profit = 0;
     this.paid = 0;
     this.total = 0;
+    await this._getWallet();
     EventBus.emit('refresh', this, {
       ts: new Date().getTime(),
     });
@@ -115,6 +116,13 @@ export class Main extends LitElement {
         } else {
           this.requestUpdate();
         }
+      },
+      this
+    );
+    EventBus.on(
+      'check',
+      () => {
+        this._doRefresh();
       },
       this
     );
@@ -169,11 +177,6 @@ export class Main extends LitElement {
         : nothing}
       <button class="btn btn-primary" @click=${this._doRefresh}>Refresh</button>
       <button class="btn btn-secondary" @click=${this._goBack}>Back</button>
-      <!--
-      <button class="btn btn-secondary" @click=${this._goBack}>
-        Download wallet
-      </button>
-      -->
     `;
   }
 }
