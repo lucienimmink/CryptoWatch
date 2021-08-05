@@ -45,7 +45,6 @@ export class Main extends LitElement {
   }
   constructor() {
     super();
-    this.wallet = {};
     this._getWallet();
     this._listen();
     this.profit = 0;
@@ -65,7 +64,15 @@ export class Main extends LitElement {
     }, INTERVAL);
   }
   async _getWallet() {
-    this.wallet = (await get('wallet')) || {};
+    const wallet = (await get('wallet')) || {};
+    // clean up wallet
+    // this.wallet = Object.keys(wallet).filter(ledger => ledger.amount > 0);
+    Object.keys(wallet).forEach(key => {
+      if (!wallet[key].amount || wallet[key].amount == 0) {
+        delete wallet[key];
+      }
+    });
+    this.wallet = wallet;
     this.requestUpdate();
   }
   _goBack() {
