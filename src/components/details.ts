@@ -1,5 +1,6 @@
-import { LitElement, html, customElement } from 'lit-element';
-import { navigator } from 'lit-element-router';
+import { LitElement, html, nothing } from 'lit';
+import { customElement } from 'lit/decorators.js';
+import { navigator } from '@addasoft/lit-element-router';
 import buttons from '../styles/buttons';
 import headers from '../styles/headers';
 import { global as EventBus } from '../utils/EventBus';
@@ -14,7 +15,6 @@ import muted from '../styles/muted';
 import positive from '../styles/positive';
 import negative from '../styles/negative';
 import calculating from '../styles/calculating';
-import { nothing } from 'lit-html';
 
 const INTERVAL = 5 * 1000;
 
@@ -157,13 +157,11 @@ export class Main extends LitElement {
                   class="${this.profit >= 0 ? 'positive ' : 'negative '} ${this
                     .isCalculating
                     ? 'calculating'
-                    : nothing}"
+                    : ''}"
                   >${this.currencyFormatter.format(this.profit)}</strong
                 >
                 <span
-                  class="small muted ${this.isCalculating
-                    ? 'calculating'
-                    : nothing}"
+                  class="small muted ${this.isCalculating ? 'calculating' : ''}"
                 >
                   ${this.paid !== 0
                     ? html` (${this.numberFormatter.format(this.percentage)}%) `
@@ -172,7 +170,7 @@ export class Main extends LitElement {
               </p>
               <p>
                 Total:
-                <span class="${this.isCalculating ? 'calculating' : nothing}"
+                <span class="${this.isCalculating ? 'calculating' : ''}"
                   >${this.currencyFormatter.format(this.total)}</span
                 >
               </p>

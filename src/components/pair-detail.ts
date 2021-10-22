@@ -1,4 +1,5 @@
-import { LitElement, html, customElement, property } from 'lit-element';
+import { LitElement, html, nothing } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 import { global as EventBus } from '../utils/EventBus';
 import tradepairs from '../utils/tradepairs';
 import fieldset from '../styles/fieldset';
@@ -9,7 +10,6 @@ import small from '../styles/small';
 import muted from '../styles/muted';
 import positive from '../styles/positive';
 import negative from '../styles/negative';
-import { nothing } from 'lit-html';
 import calculating from '../styles/calculating';
 
 @customElement('pair-detail')
@@ -154,7 +154,7 @@ export class Main extends LitElement {
                           ? 'positive '
                           : 'negative '} ${this.isCalculating
                           ? 'calculating'
-                          : nothing}"
+                          : ''}"
                         >${this.currencyFormatter.format(
                           this.priceOfWallet
                         )}</strong
@@ -171,13 +171,13 @@ export class Main extends LitElement {
                           ? 'positive '
                           : 'negative '} ${this.isCalculating
                           ? 'calculating'
-                          : nothing}"
+                          : ''}"
                         >${this.currencyFormatter.format(this.profit)}</strong
                       >
                       <span
                         class="small muted ${this.isCalculating
                           ? 'calculating'
-                          : nothing}"
+                          : ''}"
                         >(${this.numberFormatter.format(
                           this.percentage
                         )}%)</span

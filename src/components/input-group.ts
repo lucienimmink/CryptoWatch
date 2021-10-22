@@ -1,5 +1,5 @@
-import { LitElement, html, customElement, property } from 'lit-element';
-import { nothing } from 'lit-html';
+import { LitElement, html, nothing } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 import input from '../styles/input';
 import { global as EventBus } from '../utils/EventBus';
 
