@@ -1,4 +1,5 @@
-import { LitElement, html, customElement } from 'lit-element';
+import { LitElement, html, nothing } from 'lit';
+import { customElement } from 'lit/decorators.js';
 import buttons from '../styles/buttons';
 import headers from '../styles/headers';
 import tradepairs from '../utils/tradepairs';
@@ -6,7 +7,6 @@ import { global as EventBus } from '../utils/EventBus';
 
 import './pair';
 import { get, set } from 'idb-keyval';
-import { nothing } from 'lit-html';
 
 @customElement('input-nav')
 export class Main extends LitElement {

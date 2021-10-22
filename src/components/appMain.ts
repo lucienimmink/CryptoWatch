@@ -1,5 +1,5 @@
 import { LitElement, html, customElement } from 'lit-element';
-import { outlet } from 'lit-element-router';
+import { outlet } from '@addasoft/lit-element-router';
 
 @customElement('app-main')
 @outlet

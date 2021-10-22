@@ -1,5 +1,5 @@
 import { LitElement, customElement, html } from 'lit-element';
-import { router, navigator } from 'lit-element-router';
+import { router, navigator } from '@addasoft/lit-element-router';
 import { global as EventBus } from './utils/EventBus';
 
 import routes from './routes';
