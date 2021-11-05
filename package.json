@@ -62,7 +62,7 @@
   "author": "Lucien Immink",
   "license": "MIT",
   "dependencies": {
-    "@addasoft/lit-element-router": "^2.0.5",
+    "@addasoft/lit-element-router": "^3.0.0",
     "idb-keyval": "^6.0.0",
     "lit": "^2.0.2",
     "rollup-plugin-version-injector": "^1.3.3"
