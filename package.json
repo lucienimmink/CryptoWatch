@@ -21,7 +21,7 @@
     "@web/dev-server": "^0.1.25",
     "concurrently": "^8.0.0",
     "deepmerge": "^4.2.2",
-    "eslint": "^8.0.0",
+    "eslint": "^9.0.0",
     "eslint-config-prettier": "^8.3.0",
     "husky": "^8.0.0",
     "lint-staged": "^13.0.0",
